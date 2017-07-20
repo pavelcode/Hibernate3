@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <!-- 
+      class代表持久化类
+      name代表持久化类的全路径
+      table 代表表名
+      catalog 代表数据库名
+     -->
+    <class name="com.cblue.entity.User" table="user" catalog="test">
+           <!-- 
+              id 代表主键
+              name 代表实例中的主键属性
+              column 数据表中主键字段
+              type是数据类型
+            -->
+            <id name="uid" column="id" type="java.lang.Integer">
+               <!-- 主键的生成方式 -->
+               <generator class="increment"></generator>
+            </id>
+            
+            <!-- 
+                property 代表一般属性
+                length 数据库中字段长度
+             -->
+             <property name="name" length="20" type="java.lang.String"></property>
+             <property name="age" type="java.lang.Integer"></property>
+                   
+    </class>
+
+</hibernate-mapping>

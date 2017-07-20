@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ 
+ <class name="com.cblue.entity.manytomany.Student">
+     <id name="sid">
+       <generator class="increment"></generator>
+     </id>
+     <property name="sname" type="java.lang.String"></property>
+      <!-- 
+         table 是课程和学生的关联表
+       -->
+      <set name="courses" table="student_course">
+         <key column="sid"></key><!-- 确定关联的外键列 -->
+         <many-to-many class="com.cblue.entity.manytomany.Course" column="cid"/>
+     </set>
+     
+  </class>
+
+
+</hibernate-mapping>

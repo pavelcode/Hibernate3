@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.cblue.entity.single.onetomany.Teacher">
+     <id name="tid">
+       <generator class="increment"></generator>
+     </id>
+     <property name="tname" type="java.lang.String"></property>
+     <!-- 
+        cascade="save-update" 级联
+        inverse 是否维护外键关系  true代表不维护  false代表维护 默认为false，
+      -->
+     <set name="students" cascade="all" fetch="join">
+         <!--  外键 -->
+         <key>
+           <column name="tid"></column>
+         </key>
+         <one-to-many class="com.cblue.entity.single.onetomany.Student"/>
+     </set>
+  </class>
+</hibernate-mapping>

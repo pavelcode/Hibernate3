@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+<session-factory>
+	<!--  
+		方言：说明我们操作的数据库种类，根据数据库的种类，hibernate生成符合不同数据库的sql语句
+	-->
+	<property name="hibernate.dialect">
+		org.hibernate.dialect.MySQLDialect
+	</property>
+
+	<property name="myeclipse.connection.profile">mysql</property>
+	<property name="hibernate.connection.url">
+		jdbc:mysql://localhost:3306/test
+	</property>
+	<property name="hibernate.connection.username">root</property>
+	<property name="hibernate.connection.password">root</property>
+	<property name="hibernate.connection.driver_class">
+		com.mysql.jdbc.Driver
+	</property>
+	<!-- 显示Hibernate执行的sql语句 -->
+	<property name="hibernate.show_sql">true</property>
+	<!-- 
+		Hibernate根据实体创建表的策略
+		update：表示自动根据model对象来更新表结构，启动hibernate时会自动检查数据库，如果缺少表，则自动建表；如果表里缺少列，则自动添加列。
+		create：启动hibernate时，自动删除原来的表，新建所有的表，所以每次启动后的以前数据都会丢失。
+		create-drop：启动hibernate时，自动创建表，程序关闭时，自动把相应的表都删除。所以程序结束时，表和数据也不会再存在。
+		PS：数据库要预先建立好，因为hibernate只会建表，不会建库
+	-->
+	<property name="hibernate.hbm2ddl.auto">update</property>
+
+	<!-- 配置c3p0的连接池 -->
+	<!-- 配置连接池提供的供应商-->
+	<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+	<!--在连接池中可用的数据库连接的最少数目 -->
+	<property name="c3p0.min_size">5</property>
+	<!--在连接池中所有数据库连接的最大数目  -->
+	<property name="c3p0.max_size">20</property>
+	<!--设定数据库连接的过期时间,以秒为单位,
+	如果连接池中的某个数据库连接处于空闲状态的时间超过了timeout时间,就会从连接池中清除 -->
+	<property name="c3p0.timeout">120</property>
+	 <!--每3000秒检查所有连接池中的空闲连接 以秒为单位-->
+	<property name="c3p0.idle_test_period">3000</property>
+	
+	<mapping resource="com/cblue/entity/User.hbm.xml" />
+	<mapping resource="com/cblue/entity/Customer.hbm.xml" />
+	<mapping resource="com/cblue/entity/Student.hbm.xml" />
+	<mapping resource="com/cblue/entity/Teacher.hbm.xml" />
+
+</session-factory>
+
+
+
+</hibernate-configuration>
