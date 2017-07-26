@@ -59,8 +59,91 @@ public class Test05_1QueryMethod {
 	}
 	
 	
+	/**
+	 * 按条件查询
+	 */
+	//按参数检索
+	@Test
+	public void selectByParamName(){
+	  Query query = session.createQuery("from Customer c where c.cname=:name");
+	  query.setString("name", "eee2");	
+	  List<Customer> customers =  query.list();
+		for(Customer customer:customers){
+			System.out.println(customer);
+		}
+	}
+	
+	//按参数名称查询
+	@Test
+	public void selectByParamPosistion(){
+	  Query query = session.createQuery("from Customer c where c.cname=?");
+	  query.setString(0, "eee2");	
+	  List<Customer> customers =  query.list();
+		for(Customer customer:customers){
+			System.out.println(customer);
+		}
+	}
+	
+	//QBC查询
+	@Test
+	public void simpleSelectByCondition1(){
+//			Criteria criteria = session.createCriteria(Customer.class);
+//			Criterion criterion = Restrictions.eq("cname", "eee1");
+//			criteria.add(criterion);
+//			List<Customer> customers = criteria.list();
+			//或
+			List<Customer> customers = session.createCriteria(Customer.class).add(Restrictions.eq("cname", "eee1")).list();
+			
+			for(Customer customer:customers){
+				System.out.println(customer);
+			}
+	}
+		
+	//id大于3的记录
+	@Test
+	public void simpleSelectByCondition2() {
+				// TODO Auto-generated method stub
+			Criteria criteria= (Criteria)session.createCriteria(Customer.class);
+			criteria.add(Restrictions.gt("cid",3));
+			List<Customer> list =  criteria.list();
+			for(Customer customer:list){
+				    System.out.println(customer);
+			}
+	}
+		//模糊查询	
+	@Test
+	public void simpleSelectByCondition3() {
+				// TODO Auto-generated method stub
+		Criteria criteria= (Criteria)session.createCriteria(Customer.class);
+		criteria.add(Restrictions.like("cname", "%zhang%"));
+		List<Customer> list =  criteria.list();
+		for(Customer customer:list){
+				System.out.println(customer);
+		}
+	}		 
+		
+		
+		//查询单个对象（如果查询的数据是多条，就会报错）
+		//按HQL
+		@Test
+		public void singleObjet1(){
+			Query q = session.createQuery("from Customer c where cid = 1 order by c.cid  desc");
+			Customer customer = (Customer)q.uniqueResult();
+			System.out.println(customer);
+		}
+		//按QBC
+		@Test
+		public void singleObjet2(){
+			Criteria criteria =  session.createCriteria(Customer.class);
+			criteria.add(Restrictions.eq("cid",1));
+			criteria.addOrder(org.hibernate.criterion.Order.desc("cid"));;
+			Customer customer = (Customer)criteria.uniqueResult();
+			System.out.println(customer);
+		}
+	
+	
 	//分页查询
-			//按HQL
+	//按HQL
 			@Test
 			public void selectPage1() {
 				// TODO Auto-generated method stub
@@ -85,27 +168,6 @@ public class Test05_1QueryMethod {
 			}
 			
 			
-			
-			//查询单个对象
-			//按HQL
-			@Test
-			public void singleObjet1(){
-				Query q = session.createQuery("from Customer c order by c.cid  desc");
-				q.setMaxResults(1);
-				Customer customer = (Customer)q.uniqueResult();
-				System.out.println(customer);
-			}
-			//按QBC
-			@Test
-			public void singleObjet2(){
-				Criteria criteria =  session.createCriteria(Customer.class);
-				criteria.addOrder(org.hibernate.criterion.Order.desc("cid"));
-				criteria.setMaxResults(1);
-				Customer customer = (Customer)criteria.uniqueResult();
-				System.out.println(customer);
-			}
-			
-			
 			//检索排序
 					//HQL查询
 					@Test
@@ -127,68 +189,7 @@ public class Test05_1QueryMethod {
 					}
 
 	
-	/**
-	 * 按条件查询
-	 */
-	//按参数检索
-	@Test
-	public void selectByParamName(){
-	  Query query = session.createQuery("from Customer c where c.cname=:name");
-	  query.setString("name", "eee2");	
-	  List<Customer> customers =  query.list();
-		for(Customer customer:customers){
-			System.out.println(customer);
-		}
-	}
-	//按参数名称查询
-	@Test
-	public void selectByParamPosistion(){
-	  Query query = session.createQuery("from Customer c where c.cname=?");
-	  query.setString(0, "eee2");	
-	  List<Customer> customers =  query.list();
-		for(Customer customer:customers){
-			System.out.println(customer);
-		}
-	}
 	
-	
-	//QBC查询
-		@Test
-		public void simpleSelectByCondition1(){
-//			Criteria criteria = session.createCriteria(Customer.class);
-//			Criterion criterion = Restrictions.eq("cname", "eee1");
-//			criteria.add(criterion);
-//			List<Customer> customers = criteria.list();
-			//或
-			List<Customer> customers = session.createCriteria(Customer.class).add(Restrictions.eq("cname", "eee1")).list();
-			
-			for(Customer customer:customers){
-				System.out.println(customer);
-			}
-		}
-		
-		//id大于3的记录
-		 @Test
-		 public void simpleSelectByCondition2() {
-				// TODO Auto-generated method stub
-				Criteria criteria= (Criteria)session.createCriteria(Customer.class);
-				criteria.add(Restrictions.gt("cid",3));
-				List<Customer> list =  criteria.list();
-				 for(Customer customer:list){
-				    	System.out.println(customer);
-				 }
-			}
-		//模糊查询	
-		@Test
-		public void simpleSelectByCondition3() {
-				// TODO Auto-generated method stub
-				Criteria criteria= (Criteria)session.createCriteria(Customer.class);
-				criteria.add(Restrictions.like("cname", "%zhang%"));
-				List<Customer> list =  criteria.list();
-				 for(Customer customer:list){
-				    	System.out.println(customer);
-				 }
-		}		 
 	
 	//投影查询
 		@Test
@@ -253,6 +254,7 @@ public class Test05_1QueryMethod {
 			System.out.println(maxmin[0]);
 			System.out.println(maxmin[1]);
 		}
+		
 		
 		//离线条件查询
 		@Test

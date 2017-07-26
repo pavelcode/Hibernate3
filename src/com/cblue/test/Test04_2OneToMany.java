@@ -16,27 +16,21 @@ public class Test04_2OneToMany {
 	//级联添加 添加一个部门，及部门下的员工
 	@Test
 	public void testSave(){
-		
 		Session session = HibernateSessionFactory.getSession();
 		Transaction transaction = session.beginTransaction();
-		  
-		Employee e1 = new Employee();
-		e1.setEname("e111");
-		Employee e2 = new Employee();
-		e2.setEname("e222");
 		
 		Department d1 = new Department();
 		d1.setDname("高中部");
+		  
+		Employee e1 = new Employee();
+		e1.setEname("e111");
 		
-/*		d1.getEmployees().add(e1);
-		d1.getEmployees().add(e2);*/
-	
-		e1.setDepartment(d1);
-		e2.setDepartment(d1);
-			
-		session.save(e1);
-		session.save(e2);
-
+		Employee e2 = new Employee();
+		e2.setEname("e222");
+		
+		d1.getEmployees().add(e1);
+		d1.getEmployees().add(e2);
+		session.save(d1);
 		
 		transaction.commit();
 		session.close();

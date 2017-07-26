@@ -36,6 +36,16 @@ public class Test03_2Cache {
 	   	 System.out.println(student2);
 	}
 	
+	//副本 hibernate中保存着一个跟数据库数据一致的对象，我们称为副本。
+	//获得一个对象，不修改属性，直接update，发现没有更新语句。这是因为对象跟副本比较，没有变化，不执行sql语句
+	@Test
+	public void update01(){
+		 Transaction transaction = session.beginTransaction();
+	   	 Student student = (Student) session.get(Student.class,1); //得到一个持久状态对象
+	   	 session.update(student);
+	   	 transaction.commit();
+	   	 session.close();
+	}
 	
 	
 	 /**
@@ -70,7 +80,7 @@ public class Test03_2Cache {
     
     
     /**
-     *  flush 先把对数据的sql语句放到缓存中最后一起执行，效率更高
+     *  flush 把sql语句一起执行，然后再执行打印操作效率更高
      *  添加不添加flush的方法，打印的结果不同
      *  添加了flush方法，先执行了数据库操作，然后才打印对象
      *  不添加flush方法，按照顺序执行
@@ -93,6 +103,7 @@ public class Test03_2Cache {
     }
     
     /**
+     * 
      * 如果是瞬时对象，使用persist保存失败
      * 如果是瞬时对象，使用save保存
      * 
@@ -103,8 +114,10 @@ public class Test03_2Cache {
  		// TODO Auto-generated method stub
  		Transaction trans = session.beginTransaction();
  		Student student = (Student) session.get(Student.class,1); 
- 		session.evict(student);
+ 		System.out.println(student);
  		student.setName("abc");
+ 		session.evict(student);
+ 		
  		session.persist(student);
  		//session.save(student);
  		trans.commit();
@@ -114,17 +127,19 @@ public class Test03_2Cache {
     
     /**
      * 如果是瞬时对象，使用save保存
-     * 如果是托管对象，使用update 
+     * 如果是持久化对象，使用update 
      */
      @Test
   	public void saveOrUpdate() {
   		// TODO Auto-generated method stub
   		Transaction trans = session.beginTransaction();
   		//Student student = new Student("aa");  
+  		//如果是瞬时对象，执行保存操作
+  		Student student = new Student("t1");
   		
-  		Student student = (Student)session.get(Student.class, 10);
- 		session.evict(student);
- 		student.setName("111");
+  		//如果是持久化对象，执行更新操作
+  		//Student student = (Student)session.get(Student.class, 1);
+ 		//student.setName("a2");
   		
   		session.saveOrUpdate(student);
   		trans.commit();
@@ -145,16 +160,17 @@ public class Test03_2Cache {
     		
     }
      /**
-      * 让对象变成游离状态，直接删除会失败
-      * 当添加flush，刷新缓存后，删除成功
+      * delete()与对象状态无关
+      * 这个方法没有意义
       */
      @Test
      public void delete() {
     		// TODO Auto-generated method stub
+    	 Transaction trans = session.beginTransaction();
     	 Student student = (Student)session.get(Student.class, 2);
     	 session.evict(student);
     	 session.delete(student);
-    	 session.flush();
+    	 trans.commit();
     	 session.close();
     		
     }

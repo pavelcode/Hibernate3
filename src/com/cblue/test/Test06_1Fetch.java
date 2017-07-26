@@ -77,7 +77,7 @@ public class Test06_1Fetch {
 	
 	/**
 	 * <set name="students" cascade="all" fetch="join">
-	 * 没有子查询，使用左外连接
+	 * 没有子查询（也就是不需要查询所有老师下的所有学生），使用左外连接
 	 */
 	@Test
 	public void getTeacherAndStudent_Fetch_join2(){

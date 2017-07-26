@@ -5,6 +5,9 @@ import java.util.Set;
 public class Student {
    
 	private int sid;
+	private String sname;
+	private Set<Course> courses;
+	
 	public int getSid() {
 		return sid;
 	}
@@ -23,6 +26,5 @@ public class Student {
 	public void setCourses(Set<Course> courses) {
 		this.courses = courses;
 	}
-	private String sname;
-	private Set<Course> courses;
+	
 }

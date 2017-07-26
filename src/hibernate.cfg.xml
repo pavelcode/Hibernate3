@@ -33,21 +33,22 @@
 
 	<!-- 配置c3p0的连接池 -->
 	<!-- 配置连接池提供的供应商-->
-	<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+	<property name="connection.provider_class">
+		org.hibernate.connection.C3P0ConnectionProvider
+	</property>
 	<!--在连接池中可用的数据库连接的最少数目 -->
 	<property name="c3p0.min_size">5</property>
 	<!--在连接池中所有数据库连接的最大数目  -->
 	<property name="c3p0.max_size">20</property>
 	<!--设定数据库连接的过期时间,以秒为单位,
-	如果连接池中的某个数据库连接处于空闲状态的时间超过了timeout时间,就会从连接池中清除 -->
+		如果连接池中的某个数据库连接处于空闲状态的时间超过了timeout时间,就会从连接池中清除 -->
 	<property name="c3p0.timeout">120</property>
-	 <!--每3000秒检查所有连接池中的空闲连接 以秒为单位-->
+	<!--每3000秒检查所有连接池中的空闲连接 以秒为单位-->
 	<property name="c3p0.idle_test_period">3000</property>
-	
-	<mapping resource="com/cblue/entity/User.hbm.xml" />
-	<mapping resource="com/cblue/entity/Customer.hbm.xml" />
-	<mapping resource="com/cblue/entity/Student.hbm.xml" />
-	<mapping resource="com/cblue/entity/Teacher.hbm.xml" />
+	<mapping
+		resource="com/cblue/entity/single/onetomany/Student.hbm.xml" />
+	<mapping
+		resource="com/cblue/entity/single/onetomany/Teacher.hbm.xml" />
 
 </session-factory>
 

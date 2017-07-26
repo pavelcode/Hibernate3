@@ -1,12 +1,12 @@
 package com.cblue.entity.onetomany;
 
-import java.util.Set;
+import java.util.*;
 
 public class Department {
 	
 	private int did;
 	private String dname;
-	private Set<Employee> employees;
+	private Set<Employee> employees = new HashSet<Employee>();
 	
 	
 	public Set<Employee> getEmployees() {

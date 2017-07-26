@@ -8,7 +8,10 @@
      </id>
      <property name="dname" type="java.lang.String"></property>
       
-      <!-- 多个一方维护关系 -->
+      <!-- 
+      inverse=true 表示一的一方不维护主键，由多的一方维护
+      这里的外键字段一定要和多的一方的外键一致
+      -->
       <set name="employees" inverse="true" cascade="all">
          <key column="departid"></key><!-- 确定关联的外键列 -->
          <one-to-many class="com.cblue.entity.onetomany.Employee"/>

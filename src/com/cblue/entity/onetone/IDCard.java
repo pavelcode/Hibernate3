@@ -6,6 +6,8 @@ public class IDCard implements java.io.Serializable {
 	  
      private int cnumber;  //身份证号
      
+     private Person person;
+     
     
 	@Override
 	public String toString() {
@@ -47,6 +49,6 @@ public class IDCard implements java.io.Serializable {
 		this.person = person;
 	}
 
-	private Person person;
+	
  
 }
